@@ -24,7 +24,7 @@ const ChefRecommends = () => {
                 {
                     chefReco.map(chefs => <RecoCard
                     key={chefs._id}
-                    chefs={chefs}
+                    items={chefs}
                     ></RecoCard>)
                 }
             </div>

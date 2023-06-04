@@ -1,12 +1,42 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../providers/AuthProvider";
+import { FaShoppingCart } from 'react-icons/fa';
+import useCart from "../../../Hooks/useCart";
 
 const NavBar = () => {
+    const { user, logOut } = useContext(AuthContext);
+    const [cart] = useCart();
+
+
+    const handelLogOut = () => {
+        logOut()
+            .then(() => { })
+            .catch(error => console.log(error))
+    }
 
     const navOptions = <>
 
         <li><Link to='/'>HOME</Link></li>
-        <li><Link to='/menu'>OUR MENU</Link></li>
+        <li><Link to='/menu'>MENU</Link></li>
+        <li><Link to='/order/salad'>ORDER</Link></li>
+        <li><Link to='/dashboard/mycart'>
 
+            <div className="flex relative">
+                <div className="bg-green-600 rounded-full p-2">
+                <FaShoppingCart className=""></FaShoppingCart>
+                </div>
+                <small className="bg-red-700 text-black badge badge-primary badge-md font-bold absolute -bottom-3 -right-0">{cart?.length || 0}</small>
+            </div>
+        </Link></li>
+        {
+            user ? <>
+                <span>{user?.displayName}</span>
+                <button onClick={handelLogOut} className="btn btn-ghost">LogOut</button>
+            </> : <>
+                <li><Link to='/login'>LOGIN</Link></li>
+            </>
+        }
     </>
 
     return (
@@ -25,7 +55,7 @@ const NavBar = () => {
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
-                       {navOptions}
+                        {navOptions}
                     </ul>
                 </div>
                 <div className="navbar-end">
